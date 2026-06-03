@@ -1,0 +1,42 @@
+{
+  "name": "pr-lucasekar-ministries",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@21st-sdk/agent": "^0.0.18",
+    "@react-three/drei": "^9.92.7",
+    "@react-three/fiber": "^8.15.12",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.378.0",
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-use": "^17.6.0",
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.160.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.4.0"
+  },
+  "description": "",
+  "main": "next.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
