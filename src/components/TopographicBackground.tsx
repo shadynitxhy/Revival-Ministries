@@ -20,11 +20,11 @@ const CONFIG = {
 
 const MOBILE_CONFIG = {
   cols: 24,
-  levels: 6,
-  lineColor: "rgba(20,20,20,0.04)",
-  lineWidth: 0.6,
-  highlightColor: "rgba(20,20,20,0.05)",
-  highlightWidth: 0.8,
+  levels: 7,
+  lineColor: "rgba(20,20,20,0.065)",
+  lineWidth: 0.75,
+  highlightColor: "rgba(20,20,20,0.08)",
+  highlightWidth: 0.95,
   mouseRadius: 120,
   maxDistortion: 4,
   elevationRadius: 140,
@@ -34,7 +34,36 @@ const MOBILE_CONFIG = {
   elevationEase: 0.05,
 };
 
-function noise(nx: number, ny: number): number {
+function noise(nx: number, ny: number, isMobile: boolean): number {
+  if (isMobile) {
+    // Mobile/tablet configuration:
+    // Scale and position adjustment to prevent crowdedness, awkward cropping, and ensure text readability.
+    // Decrease the frequency by scaling nx and ny down (so waves are larger).
+    const x = nx * 2.4;
+    const y = ny * 2.8;
+
+    // Shift the center of the radial flat area slightly up to align with center-aligned hero typography
+    const dx = nx - 0.5;
+    const dy = ny - 0.48;
+
+    // Make the central readability corridor wide and smooth:
+    // dx * dx * 1.8 + dy * dy * 0.9 shapes it as a vertical ellipse, preserving readability of center text.
+    const distFromCenter = Math.sqrt(dx * dx * 1.8 + dy * dy * 0.9);
+    
+    // Increased edgeBoost steepness to ensure lines build up beautifully towards the screen edges without cluttering the center.
+    const edgeBoost = 0.32 + distFromCenter * 1.5;
+
+    return (
+      (
+        Math.sin(x * 1.1 + y * 0.9) * 0.5 +
+        Math.sin(x * 0.7 - y * 1.4) * 0.25 +
+        Math.sin(x * 2.3 + y * 1.7) * 0.125 +
+        0.5
+      ) * edgeBoost
+    );
+  }
+
+  // Desktop configuration (unchanged)
   const x = nx * 4.0;
   const y = ny * 4.0;
   // Radial amplitude: flatter in center, more detail at edges
@@ -102,7 +131,7 @@ export default function TopographicBackground() {
             oy: y,
             x,
             y,
-            e: noise(nx, ny),
+            e: noise(nx, ny, isMobile),
             de: 0,
             targetDe: 0,
           });
@@ -326,7 +355,7 @@ export default function TopographicBackground() {
       className="fixed inset-0 w-full h-full pointer-events-none z-0"
       style={{
         backgroundColor: "#FDFCFA",
-        opacity: isMobile ? 0.85 : 1,
+        opacity: isMobile ? 0.92 : 1,
       }}
     >
       <path
